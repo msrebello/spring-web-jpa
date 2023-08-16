@@ -3,6 +3,7 @@ package com.matheusdev.springwebjpa.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.matheusdev.springwebjpa.entities.pk.OrderItemPK;
 
 import jakarta.persistence.EmbeddedId;
@@ -31,6 +32,7 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 	
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
