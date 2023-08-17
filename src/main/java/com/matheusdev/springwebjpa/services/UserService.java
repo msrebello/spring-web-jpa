@@ -13,6 +13,8 @@ import com.matheusdev.springwebjpa.repositories.UserRepository;
 import com.matheusdev.springwebjpa.services.exceptions.DatabaseException;
 import com.matheusdev.springwebjpa.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
 
@@ -46,9 +48,13 @@ public class UserService {
 	}
 
 	public User uptade(Long id, User user) {
-		User entity = userRepository.getReferenceById(id);
-		uptadeUser(entity, user);
-		return userRepository.save(entity);
+		try {
+			User entity = userRepository.getReferenceById(id);
+			uptadeUser(entity, user);
+			return userRepository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void uptadeUser(User entity, User user) {
